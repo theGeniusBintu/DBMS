@@ -1,0 +1,96 @@
+--Grouping and aggregate functions
+
+select "type", avg(price::numeric)
+from titles t
+group by t."type"
+
+select max(pubdate) - min(pubdate)
+from titles t
+
+
+select "type", pub_id ,avg(price::numeric),min(price::numeric),max(price::numeric)
+from titles t
+group by "type" ,pub_id ;
+
+
+select "type", pub_id ,avg(price::numeric),min(price::numeric),max(price::numeric)
+from titles t
+group by "type" ,pub_id
+having avg(price::numeric) > 20
+order by avg(price::numeric) > 20;
+
+select length(title)
+from titles t
+order by length(title) asc;
+
+
+--Business Queries
+--select type, type::age('Month'), avg(age('Month'))
+--from titles t
+
+select city,count(city) as "number of authors"
+from authors a
+group by city
+
+select max(title)
+from titles t
+
+select s.qty, stor_id, count(qty)
+from sales s
+group by s.qty, s.stor_id
+
+select  sum(qty)
+from sales s
+
+
+--Table Joins
+select pub_name ,pr_info::character(40)
+from publishers p inner join pub_info pi2
+on p.pub_id = pi2.pub_id
+
+select p.pub_id, pub_name, title_id
+from publishers p inner join titles t
+on p.pub_id = t.pub_id
+
+select t.title_id, t.title, s.ord_num,s.qty as "Total Sold"
+from titles t inner join sales s
+on t.title_id =s.title_id
+
+select s.stor_id, ord_num, discounttype,discount
+from stores s inner join sales s2
+on s.stor_id = s2.stor_id
+inner join discounts d
+on s.stor_id = d.stor_id
+
+select au_lname, pub_name, a.city
+from authors a inner join publishers p
+on a.city = p.city
+
+select au_lname, pub_name, a.city,t.title
+from authors a inner join publishers p
+on a.city = p.city
+inner join titles t
+on t.pub_id = p.pub_id
+
+select pub_name ,pr_info::character(40)
+from publishers p full outer join pub_info pi2
+on p.pub_id = pi2.pub_id
+
+select pub_name, t.title, qty
+from titles t inner join publishers p
+on t.pub_id = p.pub_id
+inner join sales s
+on s.title_id = t.title_id
+
+--Business Queries
+--select pub_name
+--from publishers p
+--group by "type", pub_name
+
+
+
+
+
+
+
+
